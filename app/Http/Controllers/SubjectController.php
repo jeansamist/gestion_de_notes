@@ -36,14 +36,14 @@ class SubjectController extends Controller
         // Validate the request data
         $validated = $request->validate([
             'name'         => 'required|string|max:255',
-            'teacher_name' => 'required|string|max:255',
+
         ]);
 
         // Create the subject
         Subject::create([
             'name'         => $validated['name'],
             'code'         => uniqid(),
-            'teacher_name' => $validated['teacher_name'],
+
         ]);
 
         // Redirect with a success message
@@ -70,8 +70,9 @@ class SubjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSubjectRequest $request, Subject $subject)
+    public function update(Request $request, int $id)
     {
+
         //
     }
 

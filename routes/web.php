@@ -21,3 +21,4 @@ Route::get('/subjects', [SubjectController::class, 'create'])->middleware('auth'
 Route::post('/subjects', [SubjectController::class, 'store'])->middleware('auth')->name('subjects.store');
 Route::get('/grades/create', [GradeController::class, 'create'])->name('grades.create');
 Route::post('/grades', [GradeController::class, 'store'])->name('grades.store');
+

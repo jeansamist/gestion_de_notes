@@ -71,16 +71,5 @@
     </tbody>
 </table>
 
-<!-- Top Students List -->
-<h3 class="mt-5">Top Students</h3>
-<ul class="list-group">
-    @foreach ($topStudents as $student)
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        {{ $student->name }}
-        <span class="badge badge-primary badge-pill">
-            GPA: {{ number_format($student->gpa, 2) }}
-        </span>
-    </li>
-    @endforeach
-</ul>
+
 @endsection

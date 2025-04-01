@@ -24,7 +24,7 @@
                             <a class="nav-link {{ request()->is('students') ? 'active' : '' }}" href="/students">Students</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->is('subjects') ? 'active' : '' }}" href="/subjects">Subjects</a>
+                            <a class="nav-link {{ request()->is('subjects') ? 'active' : '' }}" href="/subjects">Subjets</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('teachers') ? 'active' : '' }}" href="/teachers">Teachers</a>

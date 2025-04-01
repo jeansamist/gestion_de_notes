@@ -4,9 +4,11 @@
 @section('title', 'Login Page')
 
 @section('content')
+
+
     <div class="row justify-content-center">
             <div class="col-md-4">
-
+                    <p>Bienvenue dans notre plateforme de gestion des notes. Connecter vous pour consulter vos resultats</p>
                 <div class="card shadow-sm">
                     <div class="card-header text-center fw-bold">
                         Login

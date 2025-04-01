@@ -30,10 +30,6 @@
             <input type="text" class="form-control" id="name" name="name" placeholder="Enter subject name" required>
         </div>
 
-        <div class="form-group">
-            <label for="teacher_name">Teacher Name</label>
-            <input type="text" class="form-control" id="teacher_name" name="teacher_name" placeholder="Enter teacher name" required>
-        </div>
 
         <button type="submit" class="btn btn-primary mt-4">Create Subject</button>
     </form>
