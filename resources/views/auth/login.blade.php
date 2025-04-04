@@ -8,7 +8,7 @@
   <div class="container">
     <div class="card border-light-subtle shadow-sm">
       <div class="row g-0">
-        <div class="col-12 col-md-6 text-bg-primary">
+        <div class="col-12 col-md-6 text-bg-warning">
           <div class="d-flex align-items-center justify-content-center h-100">
             <div class="col-10 col-xl-8 py-3">
               <h2 class="h1 mb-4">Bienvenue dans notre plateforme de gestion des notes.</h2>
@@ -27,7 +27,7 @@
             </div>
             <form method="POST" action="{{ url('/login') }}">
               @csrf
-              
+
               @if ($errors->any())
                 <div class="alert alert-danger">
                   <ul class="mb-0">
@@ -37,7 +37,7 @@
                   </ul>
                 </div>
               @endif
-              
+
               <div class="row gy-3 gy-md-4 overflow-hidden">
                 <div class="col-12">
                   <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-12">
                   <div class="d-grid">
-                    <button class="btn btn-xl btn-primary" type="submit">Log in now</button>
+                    <button class="btn btn-xl btn-success" type="submit">Log in now</button>
                   </div>
                 </div>
               </div>
