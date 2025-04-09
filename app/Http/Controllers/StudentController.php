@@ -102,4 +102,81 @@ class StudentController extends Controller
         $student = Student::with(['user', 'grades.subject'])->findOrFail($id);
         return view('students.show', compact('student'));
     }
+
+    /**
+     * Show the form for editing the specified student.
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
+    public function edit($id)
+    {
+        $student = Student::with('user')->findOrFail($id);
+        return view('students.edit', compact('student'));
+    }
+
+    /**
+     * Update the specified student in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, $id)
+    {
+        $student = Student::with('user')->findOrFail($id);
+        
+        // Validate the request data.
+        $validatedData = $request->validate([
+            'name'           => 'required|string|max:255',
+            'email'          => 'required|email|unique:users,email,' . $student->user->id,
+            'birth_date'     => 'required|date',
+            'gender'         => 'required|in:male,female,other',
+            'class'          => 'required|string|max:255',
+            'profile_photo'  => 'nullable|image|max:2048',
+        ]);
+
+        // Update user record
+        $student->user->update([
+            'name'  => $validatedData['name'],
+            'email' => $validatedData['email'],
+        ]);
+
+        // Handle file upload if provided
+        if ($request->hasFile('profile_photo')) {
+            $profilePhotoPath = $request->file('profile_photo')->store('profile_photos', 'public');
+            $student->profile_photo = $profilePhotoPath;
+        }
+
+        // Update student record
+        $student->update([
+            'birth_date' => $validatedData['birth_date'],
+            'gender'     => $validatedData['gender'],
+            'class'      => $validatedData['class'],
+        ]);
+
+        return redirect()->route('students.show', $student->id)
+            ->with('success', 'Student updated successfully.');
+    }
+
+    /**
+     * Remove the specified student from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        $student = Student::findOrFail($id);
+        $userId = $student->user_id;
+        
+        // First delete the student record
+        $student->delete();
+        
+        // Then delete the associated user record
+        User::destroy($userId);
+
+        return redirect()->route('students.index')
+            ->with('success', 'Student deleted successfully.');
+    }
 }

@@ -49,9 +49,16 @@
 
             @if (Auth::user()->role === 'admin' OR Auth::user()->role === 'teacher')
                 <div class="d-flex mt-4">
-                    <a href="{{ route('grades.create', ['student_id' => $student->id]) }}" class="btn btn-success">Add Grade</a>
-
-                    <a href="{{ route('students.index') }}" class="btn btn-primary">Back to Student List</a></div>
+                    <a href="{{ route('grades.create', ['student_id' => $student->id]) }}" class="btn btn-success me-2">Add Grade</a>
+                    <a href="{{ route('students.edit', $student->id) }}" class="btn btn-warning me-2">Edit Student</a>
+                    
+                    <form action="{{ route('students.destroy', $student->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this student? This action cannot be undone.')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger me-2">Delete Student</button>
+                    </form>
+                    
+                    <a href="{{ route('students.index') }}" class="btn btn-primary">Back to Student List</a>
                 </div>
             @endif
     </div>

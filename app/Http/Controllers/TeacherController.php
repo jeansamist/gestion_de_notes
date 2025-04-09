@@ -61,4 +61,87 @@ class TeacherController extends Controller
 
         return redirect()->route('teachers.index')->with('success', 'Teacher created successfully.');
     }
+    
+    /**
+     * Display the specified teacher.
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
+    public function show($id)
+    {
+        $teacher = Teacher::with(['user', 'subject'])->findOrFail($id);
+        return view('teachers.show', compact('teacher'));
+    }
+    
+    /**
+     * Show the form for editing the specified teacher.
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
+    public function edit($id)
+    {
+        $teacher = Teacher::with('user')->findOrFail($id);
+        $subjects = Subject::all();
+        return view('teachers.edit', compact('teacher', 'subjects'));
+    }
+    
+    /**
+     * Update the specified teacher in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, $id)
+    {
+        $teacher = Teacher::with('user')->findOrFail($id);
+        
+        // Validate the request data
+        $validated = $request->validate([
+            'name'       => 'required|string|max:255',
+            'email'      => 'required|email|unique:users,email,' . $teacher->user->id,
+            'subject_id' => 'required|exists:subjects,id',
+            'specialty'  => 'nullable|string|max:255',
+            'department' => 'nullable|string|max:255',
+        ]);
+        
+        // Update user record
+        $teacher->user->update([
+            'name'  => $validated['name'],
+            'email' => $validated['email'],
+        ]);
+        
+        // Update teacher record
+        $teacher->update([
+            'subject_id' => $validated['subject_id'],
+            'specialty'  => $validated['specialty'] ?? null,
+            'department' => $validated['department'] ?? null,
+        ]);
+        
+        return redirect()->route('teachers.index')
+            ->with('success', 'Teacher updated successfully.');
+    }
+    
+    /**
+     * Remove the specified teacher from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        $teacher = Teacher::findOrFail($id);
+        $userId = $teacher->user_id;
+        
+        // First delete the teacher record
+        $teacher->delete();
+        
+        // Then delete the associated user record
+        User::destroy($userId);
+        
+        return redirect()->route('teachers.index')
+            ->with('success', 'Teacher deleted successfully.');
+    }
 }

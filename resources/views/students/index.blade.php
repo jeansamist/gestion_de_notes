@@ -75,6 +75,7 @@
                         <th>Gender</th>
                         <th>Class</th>
                         <th>GPA</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,6 +88,16 @@
                         <td>{{ ucfirst($student->gender) }}</td>
                         <td>{{ $student->class }}</td>
                         <td>{{ $student->gpa ? number_format($student->gpa, 2) : 'N/A' }}</td>
+                        <td>
+                            <div class="d-flex">
+                                <a href="{{ route('students.edit', $student->id) }}" class="btn btn-sm btn-warning me-2">Edit</a>
+                                <form action="{{ route('students.destroy', $student->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this student?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
